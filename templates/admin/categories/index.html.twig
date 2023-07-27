@@ -24,7 +24,7 @@
                     <a href="{{ path('app_categories_edit', {'id': category.id}) }}">edit</a>
                 </td>
                 <td>
-                    <a href="{{ path('app_articles_index', {'categorie': category.id}) }}">articles de la catégorie</a>
+                    <a href="{{ path('app_articles_index', {'FK_categories': category.id}) }}">articles de la catégorie</a>
                 </td>
             </tr>
         {% else %}

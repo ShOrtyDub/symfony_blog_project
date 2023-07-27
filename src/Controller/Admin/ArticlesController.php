@@ -15,16 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('admin/articles')]
 class ArticlesController extends AbstractController
 {
-    #[Route('/{fk_categories?}', name: 'app_articles_index', methods: ['GET'])]
-    public function index(ArticlesRepository $articlesRepository, $fk_categories): Response
+    #[Route('/{FK_categories?}', name: 'app_articles_index', methods: ['GET'])]
+    public function index(ArticlesRepository $articlesRepository, $FK_categories): Response
     {
-        if ($fk_categories === null) {
+        if ($FK_categories === null) {
             return $this->render('admin/articles/index.html.twig', [
                 'articles' => $articlesRepository->findAll(),
             ]);
         } else {
             return $this->render('admin/articles/index.html.twig', [
-                'articles' => $articlesRepository->findBy(['fk_categories' => $fk_categories]),
+                'articles' => $articlesRepository->findBy(['FK_categories' => $FK_categories]),
 
             ]);
         }
