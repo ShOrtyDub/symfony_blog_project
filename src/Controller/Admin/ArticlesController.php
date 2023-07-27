@@ -15,12 +15,20 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('admin/articles')]
 class ArticlesController extends AbstractController
 {
-    #[Route('/', name: 'app_articles_index', methods: ['GET'])]
-    public function index(ArticlesRepository $articlesRepository): Response
+    #[Route('/{fk_categories?}', name: 'app_articles_index', methods: ['GET'])]
+    public function index(ArticlesRepository $articlesRepository, $fk_categories): Response
     {
-        return $this->render('admin/articles/index.html.twig', [
-            'articles' => $articlesRepository->findAll(),
-        ]);
+        if ($fk_categories === null) {
+            return $this->render('admin/articles/index.html.twig', [
+                'articles' => $articlesRepository->findAll(),
+            ]);
+        } else {
+            return $this->render('admin/articles/index.html.twig', [
+                'articles' => $articlesRepository->findBy(['fk_categories' => $fk_categories]),
+
+            ]);
+        }
+
     }
 
     #[Route('/new', name: 'app_articles_new', methods: ['GET', 'POST'])]
@@ -30,7 +38,7 @@ class ArticlesController extends AbstractController
         $format = 'Y-m-d';
         $date = date('Y-m-d');
         $date = DateTime::createFromFormat($format, $date);
-        
+
         $form = $this->createForm(ArticlesType::class, $article);
         $form->handleRequest($request);
         $article->setDate($date);
@@ -54,6 +62,7 @@ class ArticlesController extends AbstractController
     {
         return $this->render('admin/articles/show.html.twig', [
             'article' => $article,
+            'categorie' => $article->getFKCategories()->getNom()
         ]);
     }
 
@@ -78,7 +87,7 @@ class ArticlesController extends AbstractController
     #[Route('/{id}', name: 'app_articles_delete', methods: ['POST'])]
     public function delete(Request $request, Articles $article, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->request->get('_token'))) {
             $entityManager->remove($article);
             $entityManager->flush();
         }

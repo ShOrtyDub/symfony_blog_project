@@ -7,26 +7,31 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ article.id }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ article.titre }}</td>
-            </tr>
-            <tr>
-                <th>Auteur</th>
-                <td>{{ article.auteur }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ article.date ? article.date|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Texte</th>
-                <td>{{ article.texte }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ article.id }}</td>
+        </tr>
+        <tr>
+            <th>Catégorie</th>
+            {# categorie récupéré de la méthode render() dans ArticlesController #}
+            <td>{{ categorie }}</td>
+        </tr>
+        <tr>
+            <th>Titre</th>
+            <td>{{ article.titre }}</td>
+        </tr>
+        <tr>
+            <th>Auteur</th>
+            <td>{{ article.auteur }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{{ article.date ? article.date|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Texte</th>
+            <td>{{ article.texte }}</td>
+        </tr>
         </tbody>
     </table>
 

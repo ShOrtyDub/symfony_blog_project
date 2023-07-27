@@ -40,6 +40,9 @@ class Articles
     #[ORM\ManyToOne(inversedBy: 'fk_articles')]
     private ?User $FK_user = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $logo = null;
+
     public function __construct()
     {
         $this->fk_articles = new ArrayCollection();
@@ -160,6 +163,18 @@ class Articles
     public function setFKUser(?User $FK_user): static
     {
         $this->FK_user = $FK_user;
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?string $logo): static
+    {
+        $this->logo = $logo;
 
         return $this;
     }

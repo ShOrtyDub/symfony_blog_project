@@ -11,6 +11,7 @@
                 <th>Id</th>
                 <th>Nom</th>
                 <th>actions</th>
+                <th>voir</th>
             </tr>
         </thead>
         <tbody>
@@ -21,7 +22,9 @@
                 <td>
                     <a href="{{ path('app_categories_show', {'id': category.id}) }}">show</a>
                     <a href="{{ path('app_categories_edit', {'id': category.id}) }}">edit</a>
-                    <a href="{{ path('app_articles_index', {'id': category.id}) }}">articles</a>
+                </td>
+                <td>
+                    <a href="{{ path('app_articles_index', {'categorie': category.id}) }}">articles de la catégorie</a>
                 </td>
             </tr>
         {% else %}
