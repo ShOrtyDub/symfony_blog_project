@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Articles;
 use App\Form\ArticlesType;
 use App\Repository\ArticlesRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,10 +27,16 @@ class ArticlesController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $article = new Articles();
+        $format = 'Y-m-d';
+        $date = date('Y-m-d');
+        $date = DateTime::createFromFormat($format, $date);
+        
         $form = $this->createForm(ArticlesType::class, $article);
         $form->handleRequest($request);
+        $article->setDate($date);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->persist($article);
             $entityManager->flush();
 

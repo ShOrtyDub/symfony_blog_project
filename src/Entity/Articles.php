@@ -37,6 +37,9 @@ class Articles
     #[ORM\OneToMany(mappedBy: 'FK_articles', targetEntity: Commentaires::class)]
     private Collection $fk_articles;
 
+    #[ORM\ManyToOne(inversedBy: 'fk_articles')]
+    private ?User $FK_user = null;
+
     public function __construct()
     {
         $this->fk_articles = new ArrayCollection();
@@ -145,6 +148,18 @@ class Articles
                 $fkArticle->setFKArticles(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFKUser(): ?User
+    {
+        return $this->FK_user;
+    }
+
+    public function setFKUser(?User $FK_user): static
+    {
+        $this->FK_user = $FK_user;
 
         return $this;
     }

@@ -4,11 +4,12 @@ namespace App\Form;
 
 use App\Entity\Articles;
 use App\Entity\Categories;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ArticlesType extends AbstractType
 {
@@ -23,7 +24,9 @@ class ArticlesType extends AbstractType
                 'label' => 'Auteur',
                 'required' => true
             ])
-            ->add('date')
+            ->add('date', DateType::class, [
+                'widget' => 'single_text'
+            ])
             ->add('texte', TextType::class, [
                 'label' => 'Texte',
                 'required' => true

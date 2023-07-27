@@ -38,9 +38,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'FK_user', targetEntity: Commentaires::class)]
     private Collection $fk_user;
 
+    #[ORM\OneToMany(mappedBy: 'FK_user', targetEntity: Articles::class)]
+    private Collection $fk_articles;
+
     public function __construct()
     {
         $this->fk_user = new ArrayCollection();
+        $this->fk_articles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -161,6 +165,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($fkUser->getFKUser() === $this) {
                 $fkUser->setFKUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Articles>
+     */
+    public function getFkArticles(): Collection
+    {
+        return $this->fk_articles;
+    }
+
+    public function addFkArticle(Articles $fkArticle): static
+    {
+        if (!$this->fk_articles->contains($fkArticle)) {
+            $this->fk_articles->add($fkArticle);
+            $fkArticle->setFKUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFkArticle(Articles $fkArticle): static
+    {
+        if ($this->fk_articles->removeElement($fkArticle)) {
+            // set the owning side to null (unless already changed)
+            if ($fkArticle->getFKUser() === $this) {
+                $fkArticle->setFKUser(null);
             }
         }
 
