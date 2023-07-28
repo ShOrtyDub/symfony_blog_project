@@ -40,11 +40,14 @@ class ArticlesType extends AbstractType
                 'required' => true
             ])
             ->add('logo', FileType::class, [
+                'data_class' => null,
                 'label' => 'Logo',
                 'required' => false,
                 'help' => 'Fichier jpg, jpeg,png ou webp ne dépassant pas 1 Mo',
                 'constraints' => [
                     new File([
+                        'maxSize' => '10M',
+                        'maxSizeMessage' => 'Votre fichier ne doit pas dépasser 1Mo',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',

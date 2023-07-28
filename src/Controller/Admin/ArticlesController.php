@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Articles;
 use App\Form\ArticlesType;
 use App\Repository\ArticlesRepository;
+use App\Service\FileUploaderService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('admin/articles')]
 class ArticlesController extends AbstractController
 {
-    #[Route('/{FK_categories?}', name: 'app_articles_index', methods: ['GET'])]
+    #[Route('/list/{FK_categories?}', name: 'app_articles_index', methods: ['GET'])]
     public function index(ArticlesRepository $articlesRepository, $FK_categories): Response
     {
         if ($FK_categories === null) {
@@ -32,7 +33,7 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/new', name: 'app_articles_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploaderService $file_uploader, $publicUploadDir): Response
     {
         $article = new Articles();
         $format = 'Y-m-d';
@@ -44,6 +45,14 @@ class ArticlesController extends AbstractController
         $article->setDate($date);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $form['logo']->getData();
+
+            if ($file !== null) {
+                $fileName = $file_uploader->upload($file);
+                $filePath = $publicUploadDir . '/' . $fileName;
+                $article->setLogo($filePath);
+            }
 
             $entityManager->persist($article);
             $entityManager->flush();
