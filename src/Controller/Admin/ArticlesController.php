@@ -33,7 +33,7 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/new', name: 'app_articles_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, FileUploaderService $file_uploader, $publicUploadDir): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploaderService $fileUploaderService, $publicUploadDir): Response
     {
         $article = new Articles();
         $format = 'Y-m-d';
@@ -46,10 +46,10 @@ class ArticlesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $file = $form['logo']->getData();
+            $data = $form['logo']->getData();
 
-            if ($file !== null) {
-                $fileName = $file_uploader->upload($file);
+            if ($data !== null) {
+                $fileName = $fileUploaderService->upload($data);
                 $filePath = $publicUploadDir . '/' . $fileName;
                 $article->setLogo($filePath);
             }
