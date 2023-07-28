@@ -7,14 +7,15 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>Auteur</th>
-                <th>Date</th>
-                <th>Texte</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Date</th>
+            <th>Logo</th>
+            <th>Texte</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for article in articles %}
@@ -23,6 +24,10 @@
                 <td>{{ article.titre }}</td>
                 <td>{{ article.auteur }}</td>
                 <td>{{ article.date ? article.date|date('Y-m-d') : '' }}</td>
+                <td>{% if article.logo != '' %}
+                        <img src="{{ article.logo }}" class="img-responsive ml-3" height="50px" width="auto">
+                    {% endif %}
+                </td>
                 <td>{{ article.texte }}</td>
                 <td>
                     <a href="{{ path('app_articles_show', {'id': article.id}) }}">show</a>

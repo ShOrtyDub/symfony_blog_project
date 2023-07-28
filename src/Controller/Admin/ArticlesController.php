@@ -46,13 +46,7 @@ class ArticlesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $data = $form['logo']->getData();
-
-            if ($data !== null) {
-                $fileName = $fileUploaderService->upload($data);
-                $filePath = $publicUploadDir . '/' . $fileName;
-                $article->setLogo($filePath);
-            }
+            $this->fileUpload($article, $form, $fileUploaderService, $publicUploadDir);
 
             $entityManager->persist($article);
             $entityManager->flush();
@@ -76,12 +70,18 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_articles_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Articles $article, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Articles $article, EntityManagerInterface $entityManager, FileUploaderService $fileUploaderService, $publicUploadDir): Response
     {
         $form = $this->createForm(ArticlesType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+//            $file = $article->getLogo();
+//            explode('/', $file)
+
+            $this->fileUpload($article, $form, $fileUploaderService, $publicUploadDir);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_articles_index', [], Response::HTTP_SEE_OTHER);
@@ -102,5 +102,16 @@ class ArticlesController extends AbstractController
         }
 
         return $this->redirectToRoute('app_articles_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    private function fileUpload($article, $form, $fileUploaderService, $publicUploadDir): void
+    {
+        $data = $form['logo']->getData();
+
+        if ($data) {
+        $fileName = $fileUploaderService->upload($data);
+        $filePath = $publicUploadDir . '/' . $fileName;
+        $article->setLogo($filePath);
+        }
     }
 }

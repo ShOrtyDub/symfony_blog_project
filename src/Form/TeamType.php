@@ -42,7 +42,8 @@ class TeamType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'Mot de passe ne correspond pas',
                 'options' => ['attr' => ['class' => 'password-field', 'autocomplete' => 'new-password']],
-                'required' => true,
+                'required' => is_null($builder->getData()->getId()),
+//                'empty_data' => '',
                 'first_options' => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmation du mot de passe']
             ]);
