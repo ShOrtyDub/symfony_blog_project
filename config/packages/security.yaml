@@ -35,8 +35,8 @@ security:
         password_parameter: login[password]
         enable_csrf: true
       logout:
-        path: admin_logout
-        target: admin_login
+        path: app_logout
+        target: app_login
         invalidate_session: true
       custom_authenticator: App\Security\TeamCustomAuthenticator
       #      point d'entrée pour chaque firewall
@@ -49,18 +49,18 @@ security:
         always_remember_me: true
 
     user_secure_area:
-      pattern: ^/user
+      pattern: ^/account
       provider: app_user_provider
       form_login:
         login_path: user_login
         check_path: user_login
-        default_target_path: app_admin
+        default_target_path: app_account
         username_parameter: login[email]
         password_parameter: login[password]
         enable_csrf: true
       logout:
         path: user_logout
-        target: app_home
+        target: app_account
         invalidate_session: true
       custom_authenticator: App\Security\UserAuthenticator
       #      point d'entrée pour chaque firewall
@@ -94,6 +94,8 @@ security:
     #    mettre tel path en tel access
     - { path: ^/admin/login, roles: PUBLIC_ACCESS }
     - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/account/login, roles: PUBLIC_ACCESS }
+    - { path: ^/account, roles: ROLE_VISITOR }
 
 when@test:
   security:
