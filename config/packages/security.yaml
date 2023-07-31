@@ -24,6 +24,40 @@ security:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
+    admin_secure_area:
+      pattern: ^/admin
+      provider: app_team_provider
+      form_login:
+        login_path: admin_login
+        check_path: admin_login
+        default_target_path: app_admin
+        username_parameter: login[email]
+        password_parameter: login[password]
+        enable_csrf: true
+      logout:
+        path: admin_logout
+        target: admin_login
+        invalidate_session: true
+      custom_authenticator: App\Security\TeamCustomAuthenticator
+      entry_point: form_login
+
+    user_secure_area:
+      pattern: ^/user
+      provider: app_user_provider
+      form_login:
+        login_path: user_login
+        check_path: user_login
+        default_target_path: app_admin
+        username_parameter: login[email]
+        password_parameter: login[password]
+        enable_csrf: true
+      logout:
+        path: user_logout
+        target: app_home
+        invalidate_session: true
+      custom_authenticator: App\Security\UserCustomAuthenticator
+      entry_point: form_login
+
     main:
       lazy: true
       provider: app_team_provider
