@@ -1,5 +1,12 @@
+    {{ form_errors(form) }}
+
+    {{ form_start(form) }}
+
     {{ form_row(form.nom, {'label': 'Nom'}) }}
     {{ form_row(form.prenom, {'label': 'Prénom'}) }}
     {{ form_row(form.email, {'label': 'Email'}) }}
     {{ form_row(form.password, {'label': 'Password'}) }}
+
+    {{ form_row(form._token) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
+</form>

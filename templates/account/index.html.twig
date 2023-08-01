@@ -9,7 +9,14 @@
 </style>
 
 <div class="example-wrapper">
+    {% if app.user is not null %}
     Bonjour, {{app.user.prenom}}, vous êtes connecté.
+
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam animi assumenda cum, doloribus ea eligendi eum fugit hic id impedit, iste nulla perferendis placeat repellat sed temporibus veniam voluptate voluptates!
+    {% else %}
+    Bonjour, vous êtes connecté.
+    {% endif %}
+
 {#    <h1>Hello {{ controller_name }}! ✅</h1>#}
 
 {#    This friendly message is coming from:#}

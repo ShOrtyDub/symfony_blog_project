@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Account;
+namespace App\Controller\Public;
 
 use App\Entity\User;
 use App\Form\UserType;
@@ -15,14 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/account')]
 class PublicUserController extends AbstractController
 {
-    #[Route('/public', name: 'app_public_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
-    {
-        return $this->render('account/index.html.twig', [
-            'users' => $userRepository->findAll(),
-        ]);
-    }
-
     #[Route('/public/new', name: 'app_public_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
@@ -37,12 +29,16 @@ class PublicUserController extends AbstractController
                 $plaintextPaswword
             );
 
+            $user->setRoles(["ROLE_VISITOR"]);
+
             $user->setPassword($hashedPassword);
 
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_public_user_index', [], Response::HTTP_SEE_OTHER);
+//            return $this->redirectToRoute('user_login', [], Response::HTTP_SEE_OTHER);
+            return $this->render('account/login/account_login.html.twig', ['last_username' => $user->getEmail(), 'error' => []]);
+
         }
 
         return $this->render('account/new.html.twig', [
