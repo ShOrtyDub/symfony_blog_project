@@ -60,7 +60,7 @@ security:
         enable_csrf: true
       logout:
         path: user_logout
-        target: app_account
+        target: app_home
         invalidate_session: true
       custom_authenticator: App\Security\UserAuthenticator
       #      point d'entrée pour chaque firewall
@@ -95,6 +95,7 @@ security:
     - { path: ^/admin/login, roles: PUBLIC_ACCESS }
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/account/login, roles: PUBLIC_ACCESS }
+    - { path: ^/account/public, roles: PUBLIC_ACCESS}
     - { path: ^/account, roles: ROLE_VISITOR }
 
 when@test:
