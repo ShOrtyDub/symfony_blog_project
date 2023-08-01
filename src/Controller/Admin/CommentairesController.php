@@ -45,7 +45,7 @@ class CommentairesController extends AbstractController
     #[Route('/{id}', name: 'app_commentaires_show', methods: ['GET'])]
     public function show(Commentaires $commentaire): Response
     {
-        return $this->render('commentaires/show.html.twig', [
+        return $this->render('admin/commentaires/show.html.twig', [
             'commentaire' => $commentaire,
         ]);
     }
@@ -62,7 +62,7 @@ class CommentairesController extends AbstractController
             return $this->redirectToRoute('app_commentaires_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('commentaires/edit.html.twig', [
+        return $this->render('admin/commentaires/edit.html.twig', [
             'commentaire' => $commentaire,
             'form' => $form,
         ]);

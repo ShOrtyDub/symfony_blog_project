@@ -25,7 +25,7 @@ class SecurityAccountController extends AbstractController
         return $this->render('account/login/account_login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    #[Route(path: '/logout', name: 'app_logout')]
+    #[Route(path: '/logout', name: 'user_logout')]
     public function logout(): void
     {
         // le redirect est géré dans security.yaml
