@@ -28,8 +28,8 @@ security:
       pattern: ^/admin
       provider: app_team_provider
       form_login:
-        login_path: admin_login
-        check_path: admin_login
+        login_path: app_login
+        check_path: app_login
         default_target_path: app_admin
         username_parameter: login[email]
         password_parameter: login[password]

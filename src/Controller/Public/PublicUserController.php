@@ -36,8 +36,8 @@ class PublicUserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-//            return $this->redirectToRoute('user_login', [], Response::HTTP_SEE_OTHER);
-            return $this->render('account/login/account_login.html.twig', ['last_username' => $user->getEmail(), 'error' => []]);
+            return $this->redirectToRoute('user_login', [], Response::HTTP_SEE_OTHER);
+//            return $this->render('account/login/account_login.html.twig', ['last_username' => $user->getEmail(), 'error' => []]);
 
         }
 

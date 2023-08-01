@@ -15,23 +15,7 @@
 
 <body class="bg-gradient-primary">
 
-    <div class="container">
-        {% if app.user %}
-            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                <ul>
-                    <li class="nav-item dropdown no-arrow mx-1">{{app.user.prenom}} {{app.user.nom}}</li>
-                    <li class="nav-item dropdown no-arrow mx-1"><a href="{{ path('user_logout') }}">Déconnexion</a></li>
-                </ul>
-            </nav>
-        {% else %}
-            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                <ul>
-                    <li class="nav-item dropdown no-arrow mx-1"><a href="{{ path('app_public_user_new') }}">Créer un compte</a></li>
-                    <li class="nav-item dropdown no-arrow mx-1"><a href="{{ path('user_login') }}">Connexion</a></li>
-                </ul>
-            </nav>
-        {% endif %}
-    </div>
+{% include '/account/partials/_navbar.html.twig' %}
 
 <div>
     {% block body %}{% endblock %}
