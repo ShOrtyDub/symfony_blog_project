@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Articles{% endblock %}
+
+{% block body %}
+    <h1>Articles</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ article.id }}</td>
+        </tr>
+        <tr>
+            <th>Catégorie</th>
+            {# categorie récupéré de la méthode render() dans ArticlesController #}
+            <td>{{ categorie }}</td>
+        </tr>
+        <tr>
+            <th>Titre</th>
+            <td>{{ article.titre }}</td>
+        </tr>
+        <tr>
+            <th>Auteur</th>
+            <td>{{ article.auteur }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{{ article.date ? article.date|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Texte</th>
+            <td>{{ article.texte }}</td>
+        </tr>
+        <tr>
+            <th>Logo</th>
+            <td><img src={{ article.logo }}></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_public_articles_index') }}">back to list</a>
+
+{% endblock %}

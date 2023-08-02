@@ -20,10 +20,10 @@
                 <td>{{ category.id }}</td>
                 <td>{{ category.nom }}</td>
                 <td>
-                    <a href="{{ path('app_categories_show', {'id': category.id}) }}">show</a>
+                    <a href="{{ path('app_public_categories_show', {'id': category.id}) }}">show</a>
                 </td>
                 <td>
-                    <a href="{{ path('app_articles_index', {'FK_categories': category.id}) }}">articles de la catégorie</a>
+                    <a href="{{ path('app_public_articles_index', {'FK_categories': category.id}) }}">articles de la catégorie</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +33,7 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <a href="{{ path('app_home') }}">Back to home</a>
 
 {% endblock %}

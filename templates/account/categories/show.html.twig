@@ -1,4 +1,4 @@
-{% extends 'admin/base_admin.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Categories{% endblock %}
 
@@ -18,9 +18,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_categories_index') }}">back to list</a>
+    <a href="{{ path('app_public_categories_index') }}">back to list</a>
 
-    <a href="{{ path('app_categories_edit', {'id': category.id}) }}">edit</a>
-
-    {{ include('admin/categories/_delete_form.html.twig') }}
 {% endblock %}
