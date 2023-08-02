@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Public;
+namespace App\Controller\Account;
 
 use App\Entity\Categories;
 use App\Form\CategoriesType;
@@ -11,21 +11,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('account/public/categories')]
-class PublicCategoriesController extends AbstractController
+#[Route('account/categories')]
+class AccountCategoriesController extends AbstractController
 {
-    #[Route('/', name: 'app_public_categories_index', methods: ['GET'])]
+    #[Route('/', name: 'app_account_categories_index', methods: ['GET'])]
     public function index(CategoriesRepository $categoriesRepository): Response
     {
-        return $this->render('public/categories/index.html.twig', [
+        return $this->render('account/categories/index.html.twig', [
             'categories' => $categoriesRepository->findAll(),
         ]);
     }
 
-    #[Route('/{id}', name: 'app_public_categories_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_account_categories_show', methods: ['GET'])]
     public function show(Categories $category): Response
     {
-        return $this->render('public/categories/show.html.twig', [
+        return $this->render('account/categories/show.html.twig', [
             'category' => $category,
         ]);
     }

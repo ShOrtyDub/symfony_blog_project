@@ -3,33 +3,27 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper {
-            margin: 1em auto;
-            max-width: 800px;
-            width: 95%;
-            font: 18px/1.5 sans-serif;
-        }
 
-        .example-wrapper code {
-            background: #F5F5F5;
-            padding: 2px 6px;
-        }
-    </style>
+    {% include '/account/partials/_sidebar.html.twig' %}
 
-    <div class="example-wrapper">
-        <h1>Hello {{ controller_name }}! ✅</h1>
-
-        {% include '/account/partials/_sidebar.html.twig' %}
+    <div>
+        <h1>Blog Symfony</h1>
 
         {% if app.user %}
             <p>Bonjour {{ app.user.prenom }},</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque deserunt, doloremque eligendi ex
-                expedita
-                labore nihil non unde. Ad.</p>
+            <p>Quelle belle journée n'est-ce pas?</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum hic labore nemo odio omnis optio. Dicta
+                est eum itaque recusandae reprehenderit repudiandae sequi similique! Aut delectus deserunt eum eveniet
+                hic nihil non placeat quos sed tempora. Cum molestiae quae ratione! Cumque debitis fugiat ipsum iste
+                minus, reprehenderit voluptate? Ad, alias aliquam aspernatur assumenda, at autem culpa cum cumque
+                deleniti dignissimos ea enim eum exercitationem fugit hic, illum ipsa iste iure iusto magnam molestiae
+                molestias necessitatibus nemo nisi nobis odio perspiciatis provident qui quisquam repellendus similique
+                tempora tempore veniam vero vitae voluptas voluptatibus. Culpa illo illum neque suscipit. Obcaecati
+                officia, ullam?</p>
         {% endif %}
 
 
     </div>
+
 {% endblock %}
 
