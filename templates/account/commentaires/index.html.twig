@@ -3,7 +3,6 @@
 {% block title %}Commentaires index{% endblock %}
 
 {% block body %}
-
     <div>
         <h1>Commentaires index</h1>
 
@@ -29,7 +28,8 @@
                     <td>{{ commentaire.commentaire }}</td>
                     <td>{{ commentaire.status }}</td>
                     <td>
-                        <a href="{{ path('app_public_commentaires_show', {'id': commentaire.id}) }}">show</a>
+                        <a href="{{ path('app_account_commentaires_show', {'id': commentaire.id}) }}">show</a>
+                        <a href="{{ path('app_account_commentaires_edit', {'id': commentaire.id}) }}">edit</a>
                     </td>
                 </tr>
             {% else %}
@@ -40,7 +40,13 @@
             </tbody>
         </table>
 
-        <a href="{{ path('app_home') }}">back to list</a>
+        <div>
+            <a href="{{ path('app_account_commentaires_new') }}">Create new</a>
+        </div>
+
+        <div>
+            <a href="{{ path('app_account') }}">Back to home</a>
+        </div>
 
     </div>
 {% endblock %}

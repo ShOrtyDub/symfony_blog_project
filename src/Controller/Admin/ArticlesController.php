@@ -70,15 +70,27 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_articles_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Articles $article, EntityManagerInterface $entityManager, FileUploaderService $fileUploaderService, $publicUploadDir): Response
+    public function edit(Request $request, Articles $article, EntityManagerInterface $entityManager, FileUploaderService $fileUploaderService, $publicUploadDir, $publicDeleteFileDir): Response
     {
         $form = $this->createForm(ArticlesType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-//            $file = $article->getLogo();
-//            explode('/', $file)
+            // pour effacer le fichier dans le dossier temp de l'app
+            $file = $form['logo']->getData();
+            if ($file) {
+                $uow = $entityManager->getUnitOfWork();
+                $originalData = $uow->getOriginalEntityData($article);
+                $logo = explode('/', $originalData['logo']);
+                //passer $publicDeleteFileDir dans les parametres
+                @unlink($publicDeleteFileDir . '/' . $logo[2]);
+                $file_name = $fileUploaderService->upload($file);
+                if (null !== $file_name) {
+                    $full_path = $publicUploadDir . '/' . $file_name;
+                }
+                $article->setLogo($full_path);
+            }
 
             $this->fileUpload($article, $form, $fileUploaderService, $publicUploadDir);
 
@@ -109,9 +121,9 @@ class ArticlesController extends AbstractController
         $data = $form['logo']->getData();
 
         if ($data) {
-        $fileName = $fileUploaderService->upload($data);
-        $filePath = $publicUploadDir . '/' . $fileName;
-        $article->setLogo($filePath);
+            $fileName = $fileUploaderService->upload($data);
+            $filePath = $publicUploadDir . '/' . $fileName;
+            $article->setLogo($filePath);
         }
     }
 }

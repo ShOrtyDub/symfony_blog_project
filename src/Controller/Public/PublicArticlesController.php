@@ -20,11 +20,11 @@ class PublicArticlesController extends AbstractController
     public function index(ArticlesRepository $articlesRepository, $FK_categories): Response
     {
         if ($FK_categories === null) {
-            return $this->render('account/articles/index.html.twig', [
+            return $this->render('public/articles/index.html.twig', [
                 'articles' => $articlesRepository->findAll(),
             ]);
         } else {
-            return $this->render('account/articles/index.html.twig', [
+            return $this->render('public/articles/index.html.twig', [
                 'articles' => $articlesRepository->findBy(['FK_categories' => $FK_categories]),
 
             ]);
@@ -35,7 +35,7 @@ class PublicArticlesController extends AbstractController
     #[Route('/{id}', name: 'app_public_articles_show', methods: ['GET'])]
     public function show(Articles $article): Response
     {
-        return $this->render('account/articles/show.html.twig', [
+        return $this->render('public/articles/show.html.twig', [
             'article' => $article,
             'categorie' => $article->getFKCategories()->getNom()
         ]);

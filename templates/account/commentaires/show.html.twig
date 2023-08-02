@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commentaires{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>Commentaires</h1>
+
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ commentaire.id }}</td>
+            </tr>
+            <tr>
+                <th>Auteur</th>
+                <td>{{ commentaire.auteur }}</td>
+            </tr>
+            <tr>
+                <th>DateHeure</th>
+                <td>{{ commentaire.dateHeure ? commentaire.dateHeure|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Texte</th>
+                <td>{{ commentaire.texte }}</td>
+            </tr>
+            <tr>
+                <th>Commentaire</th>
+                <td>{{ commentaire.commentaire }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_account_commentaires_index') }}">back to list</a>
+
+        <a href="{{ path('app_account_commentaires_edit', {'id': commentaire.id}) }}">edit</a>
+
+{#        TODO#}
+{#        si c'est SON commentaire, il doit pouvoir l'effacer#}
+{#        {{ include('admin/commentaires/_delete_form.html.twig') }}#}
+    </div>
+{% endblock %}
