@@ -10,6 +10,12 @@
 
     {% if app.user %}
         <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_account_profil', {'id': app.user.id}) }}"><span>Mon Profil</span></a>
+        </li>
+    {% endif %}
+
+    {% if app.user %}
+        <li class="nav-item">
             <a class="nav-link" href="{{ path('app_account_categories_index') }}"><span>Categories</span></a>
         </li>
     {% else %}
