@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Commentaires;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +20,18 @@ class CommentairesRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Commentaires::class);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function setCommentsToNull($idUser)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+            UPDATE commentaires c SET fk_user_id = null 
+            WHERE c.fk_user_id = ' . $idUser;
+        $conn->executeQuery($sql);
     }
 
 //    /**

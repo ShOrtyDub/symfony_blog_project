@@ -4,6 +4,7 @@ namespace App\Controller\Account;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\CommentairesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,9 +61,11 @@ class AccountController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_account_profil_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, User $user, EntityManagerInterface $entityManager, CommentairesRepository $commentairesRepository, $id): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $commentairesRepository->setCommentsToNull($id);
+            $this->container->get('security.token_storage')->setToken(null);
             $entityManager->remove($user);
             $entityManager->flush();
         }
