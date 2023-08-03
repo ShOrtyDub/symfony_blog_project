@@ -30,7 +30,6 @@ class AccountCommentairesController extends AbstractController
     {
         $commentaire = new Commentaires();
         $user = $this->getUser();
-//        $user = $userRepository->find($id);
         $article = $articlesRepository->find($id);
         $commentaire->setFKUser($user);
         $commentaire->setFKArticles($article);

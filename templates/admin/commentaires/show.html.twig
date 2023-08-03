@@ -5,8 +5,39 @@
 {% block body %}
     <h1>Commentaires</h1>
 
-    <table class="table">
-        <tbody>
+    {% if commentaires is defined %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Auteur</th>
+                <th>DateHeure</th>
+                <th>Texte</th>
+                <th>Commentaire</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for commentaire in commentaires %}
+                <tr>
+                    <td>{{ commentaire.id }}</td>
+                    <td>{{ commentaire.auteur }}</td>
+                    <td>{{ commentaire.dateHeure ? commentaire.dateHeure|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ commentaire.texte }}</td>
+                    <td>{{ commentaire.commentaire }}</td>
+                    <td>
+                        <a href="{{ path('app_commentaires_edit', {'id': commentaire.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ path('app_commentaires_index') }}">back to list</a>
+
+    {% else %}
+
+        <table class="table">
+            <tbody>
             <tr>
                 <th>Id</th>
                 <td>{{ commentaire.id }}</td>
@@ -27,12 +58,13 @@
                 <th>Commentaire</th>
                 <td>{{ commentaire.commentaire }}</td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_commentaires_index') }}">back to list</a>
+        <a href="{{ path('app_commentaires_index') }}">back to list</a>
 
-    <a href="{{ path('app_commentaires_edit', {'id': commentaire.id}) }}">edit</a>
+        <a href="{{ path('app_commentaires_edit', {'id': commentaire.id}) }}">edit</a>
 
-    {{ include('admin/commentaires/_delete_form.html.twig') }}
+        {{ include('admin/commentaires/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

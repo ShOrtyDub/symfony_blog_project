@@ -4,7 +4,10 @@ namespace App\Controller\Admin;
 
 use App\Entity\Commentaires;
 use App\Form\CommentairesType;
+use App\Repository\ArticlesRepository;
 use App\Repository\CommentairesRepository;
+use App\Repository\TeamRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,10 +25,13 @@ class CommentairesController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_commentaires_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{id}', name: 'app_commentaires_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, ArticlesRepository $articlesRepository, TeamRepository $teamRepository, $id): Response
     {
         $commentaire = new Commentaires();
+        $article = $articlesRepository->find($id);
+        $commentaire->setFKArticles($article);
+
         $form = $this->createForm(CommentairesType::class, $commentaire);
         $form->handleRequest($request);
 
@@ -49,6 +55,22 @@ class CommentairesController extends AbstractController
             'commentaire' => $commentaire,
         ]);
     }
+
+    #[Route('/mes_commentaires_admin/{id}', name: 'app_mes_commentaires_show', methods: ['GET'])]
+    public function showMyComment(UserRepository $userRepository, CommentairesRepository $commentairesRepository, $id): Response
+    {
+        $commentaires = $commentairesRepository->findAll();
+        $mesCommentaires = [];
+        foreach ($commentaires as $commentaire) {
+            if (null === $commentaire->getFKUser()) {
+                $mesCommentaires[] = $commentaire;
+            }
+        }
+        return $this->render('admin/commentaires/show.html.twig', [
+            'commentaires' => $mesCommentaires,
+        ]);
+    }
+
 
     #[Route('/{id}/edit', name: 'app_commentaires_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Commentaires $commentaire, EntityManagerInterface $entityManager): Response

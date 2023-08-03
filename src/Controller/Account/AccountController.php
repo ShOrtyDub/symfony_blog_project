@@ -31,11 +31,10 @@ class AccountController extends AbstractController
         ]);
     }
 
-    //TODO
+    //TODO ne pas passer l'id dans l'url
     #[Route('/profil/{id}/edit', name: 'app_account_profil_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
-//        $user = $userRepository->find($security->getUser()->getId());
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
