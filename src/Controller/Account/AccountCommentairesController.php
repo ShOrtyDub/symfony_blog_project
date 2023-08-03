@@ -5,6 +5,7 @@ namespace App\Controller\Account;
 use App\Entity\Commentaires;
 use App\Entity\User;
 use App\Form\CommentairesType;
+use App\Repository\ArticlesRepository;
 use App\Repository\CommentairesRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,11 +26,14 @@ class AccountCommentairesController extends AbstractController
     }
 
     #[Route('/new/{id}', name: 'app_account_commentaires_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository, $id): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, ArticlesRepository $articlesRepository, $id): Response
     {
         $commentaire = new Commentaires();
-        $user = $userRepository->find($id);
+        $user = $this->getUser();
+//        $user = $userRepository->find($id);
+        $article = $articlesRepository->find($id);
         $commentaire->setFKUser($user);
+        $commentaire->setFKArticles($article);
 
         $form = $this->createForm(CommentairesType::class, $commentaire);
         $form->handleRequest($request);
@@ -61,15 +65,14 @@ class AccountCommentairesController extends AbstractController
         $user = $userRepository->find($id);
         $idUser = $user->getId();
         $commentaires = $commentairesRepository->findAll();
-        $array = [];
+        $mesCommentaires = [];
         foreach ($commentaires as $commentaire) {
-            if($commentaire->getFKUser()->getId() === $idUser) {
-                $array[] = $commentaire;
+            if ($commentaire->getFKUser()->getId() === $idUser) {
+                $mesCommentaires[] = $commentaire;
             }
         }
-//        dd($array);
         return $this->render('account/commentaires/show.html.twig', [
-            'commentaires' => $array,
+            'commentaires' => $mesCommentaires,
         ]);
     }
 

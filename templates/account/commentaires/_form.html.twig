@@ -1,4 +1,11 @@
+{{ form_errors(form) }}
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+    {{ form_row(form.auteur, {'label': 'Auteur'}) }}
+    {{ form_row(form.date_heure, {'label': 'Date'}) }}
+    {{ form_row(form.texte, {'label': 'Texte'}) }}
+    {{ form_row(form.commentaire, {'label': 'Commentaire'}) }}
+
+    {{ form_row(form._token) }}
+<button class="btn">{{ button_label|default('Save') }}</button>
+</form>

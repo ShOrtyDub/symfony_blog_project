@@ -33,6 +33,7 @@
                     <td>{{ article.texte }}</td>
                     <td>
                         <a href="{{ path('app_account_articles_show', {'id': article.id}) }}">show</a>
+                        <a href="{{ path('app_account_commentaires_new', {'id': article.id}) }}">commenter</a>
                     </td>
                 </tr>
             {% else %}
