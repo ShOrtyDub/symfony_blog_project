@@ -7,12 +7,12 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>actions</th>
-                <th>voir</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>actions</th>
+            <th>voir</th>
+        </tr>
         </thead>
         <tbody>
         {% for category in categories %}
@@ -24,7 +24,8 @@
                     <a href="{{ path('app_categories_edit', {'id': category.id}) }}">edit</a>
                 </td>
                 <td>
-                    <a href="{{ path('app_articles_index', {'FK_categories': category.id}) }}">articles de la catégorie</a>
+                    <a href="{{ path('app_articles_index', {'FK_categories': category.id}) }}">articles de la
+                        catégorie</a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +36,12 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_categories_new') }}">Create new</a>
+    <div>
+        <a href="{{ path('app_categories_new') }}">Create new</a>
+    </div>
+
+    <div>
+        <a href="{{ path('app_admin') }}">Back to home</a>
+    </div>
+
 {% endblock %}
