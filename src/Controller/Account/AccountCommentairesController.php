@@ -29,9 +29,10 @@ class AccountCommentairesController extends AbstractController
     {
         $commentaire = new Commentaires();
         $user = $userRepository->find($id);
+        $commentaire->setFKUser($user);
+
         $form = $this->createForm(CommentairesType::class, $commentaire);
         $form->handleRequest($request);
-        $commentaire->setFKUser($user);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($commentaire);
@@ -51,6 +52,24 @@ class AccountCommentairesController extends AbstractController
     {
         return $this->render('account/commentaires/show.html.twig', [
             'commentaire' => $commentaire,
+        ]);
+    }
+
+    #[Route('/mes_commentaires/{id}', name: 'app_account_mes_commentaires_show', methods: ['GET'])]
+    public function showMyComment(UserRepository $userRepository, CommentairesRepository $commentairesRepository, $id): Response
+    {
+        $user = $userRepository->find($id);
+        $idUser = $user->getId();
+        $commentaires = $commentairesRepository->findAll();
+        $array = [];
+        foreach ($commentaires as $commentaire) {
+            if($commentaire->getFKUser()->getId() === $idUser) {
+                $array[] = $commentaire;
+            }
+        }
+//        dd($array);
+        return $this->render('account/commentaires/show.html.twig', [
+            'commentaires' => $array,
         ]);
     }
 
@@ -75,7 +94,7 @@ class AccountCommentairesController extends AbstractController
     #[Route('/{id}', name: 'app_account_commentaires_delete', methods: ['POST'])]
     public function delete(Request $request, Commentaires $commentaire, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$commentaire->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $commentaire->getId(), $request->request->get('_token'))) {
             $entityManager->remove($commentaire);
             $entityManager->flush();
         }
