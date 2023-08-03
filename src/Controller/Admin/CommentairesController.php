@@ -7,7 +7,6 @@ use App\Form\CommentairesType;
 use App\Repository\ArticlesRepository;
 use App\Repository\CommentairesRepository;
 use App\Repository\TeamRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,15 +56,17 @@ class CommentairesController extends AbstractController
     }
 
     #[Route('/mes_commentaires_admin/{id}', name: 'app_mes_commentaires_show', methods: ['GET'])]
-    public function showMyComment(UserRepository $userRepository, CommentairesRepository $commentairesRepository, $id): Response
+    public function showMyComment(CommentairesRepository $commentairesRepository): Response
     {
         $commentaires = $commentairesRepository->findAll();
         $mesCommentaires = [];
+
         foreach ($commentaires as $commentaire) {
             if (null === $commentaire->getFKUser()) {
                 $mesCommentaires[] = $commentaire;
             }
         }
+
         return $this->render('admin/commentaires/show.html.twig', [
             'commentaires' => $mesCommentaires,
         ]);

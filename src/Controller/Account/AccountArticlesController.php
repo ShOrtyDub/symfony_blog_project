@@ -26,7 +26,6 @@ class AccountArticlesController extends AbstractController
         } else {
             return $this->render('account/articles/index.html.twig', [
                 'articles' => $articlesRepository->findBy(['FK_categories' => $FK_categories]),
-
             ]);
         }
 
@@ -39,15 +38,12 @@ class AccountArticlesController extends AbstractController
         $format = 'Y-m-d';
         $date = date('Y-m-d');
         $date = DateTime::createFromFormat($format, $date);
-
         $form = $this->createForm(ArticlesType::class, $article);
         $form->handleRequest($request);
         $article->setDate($date);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->fileUpload($article, $form, $fileUploaderService, $publicUploadDir);
-
             $entityManager->persist($article);
             $entityManager->flush();
 
@@ -76,12 +72,7 @@ class AccountArticlesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-//            $file = $article->getLogo();
-//            explode('/', $file)
-
             $this->fileUpload($article, $form, $fileUploaderService, $publicUploadDir);
-
             $entityManager->flush();
 
             return $this->redirectToRoute('app_account_articles_index', [], Response::HTTP_SEE_OTHER);
@@ -109,9 +100,9 @@ class AccountArticlesController extends AbstractController
         $data = $form['logo']->getData();
 
         if ($data) {
-        $fileName = $fileUploaderService->upload($data);
-        $filePath = $publicUploadDir . '/' . $fileName;
-        $article->setLogo($filePath);
+            $fileName = $fileUploaderService->upload($data);
+            $filePath = $publicUploadDir . '/' . $fileName;
+            $article->setLogo($filePath);
         }
     }
 }

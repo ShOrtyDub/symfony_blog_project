@@ -20,16 +20,16 @@ class ArticlesController extends AbstractController
     public function index(ArticlesRepository $articlesRepository, $FK_categories): Response
     {
         if ($FK_categories === null) {
+
             return $this->render('admin/articles/index.html.twig', [
                 'articles' => $articlesRepository->findAll(),
             ]);
         } else {
+
             return $this->render('admin/articles/index.html.twig', [
                 'articles' => $articlesRepository->findBy(['FK_categories' => $FK_categories]),
-
             ]);
         }
-
     }
 
     #[Route('/new', name: 'app_articles_new', methods: ['GET', 'POST'])]
@@ -39,15 +39,13 @@ class ArticlesController extends AbstractController
         $format = 'Y-m-d';
         $date = date('Y-m-d');
         $date = DateTime::createFromFormat($format, $date);
+        $article->setDate($date);
 
         $form = $this->createForm(ArticlesType::class, $article);
         $form->handleRequest($request);
-        $article->setDate($date);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->fileUpload($article, $form, $fileUploaderService, $publicUploadDir);
-
             $entityManager->persist($article);
             $entityManager->flush();
 
@@ -63,6 +61,7 @@ class ArticlesController extends AbstractController
     #[Route('/{id}', name: 'app_articles_show', methods: ['GET'])]
     public function show(Articles $article): Response
     {
+
         return $this->render('admin/articles/show.html.twig', [
             'article' => $article,
             'categorie' => $article->getFKCategories()->getNom()
@@ -76,24 +75,23 @@ class ArticlesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            // pour effacer le fichier dans le dossier temp de l'app
+            // pour effacer le fichier dans le dossier /public/uploads
             $file = $form['logo']->getData();
+
             if ($file) {
                 $uow = $entityManager->getUnitOfWork();
                 $originalData = $uow->getOriginalEntityData($article);
                 $logo = explode('/', $originalData['logo']);
-                //passer $publicDeleteFileDir dans les parametres
                 @unlink($publicDeleteFileDir . '/' . $logo[2]);
                 $file_name = $fileUploaderService->upload($file);
                 if (null !== $file_name) {
                     $full_path = $publicUploadDir . '/' . $file_name;
                 }
+
                 $article->setLogo($full_path);
             }
 
             $this->fileUpload($article, $form, $fileUploaderService, $publicUploadDir);
-
             $entityManager->flush();
 
             return $this->redirectToRoute('app_articles_index', [], Response::HTTP_SEE_OTHER);

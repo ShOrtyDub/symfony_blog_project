@@ -47,7 +47,6 @@ class AccountController extends AbstractController
 
             $user->setPassword($hashedPassword);
             $user->setRoles(["ROLE_VISITOR"]);
-
             $entityManager->flush();
 
             return $this->redirectToRoute('app_account', [], Response::HTTP_SEE_OTHER);

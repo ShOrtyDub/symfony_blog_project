@@ -3,7 +3,6 @@
 namespace App\Controller\Account;
 
 use App\Entity\Commentaires;
-use App\Entity\User;
 use App\Form\CommentairesType;
 use App\Repository\ArticlesRepository;
 use App\Repository\CommentairesRepository;
@@ -33,7 +32,6 @@ class AccountCommentairesController extends AbstractController
         $article = $articlesRepository->find($id);
         $commentaire->setFKUser($user);
         $commentaire->setFKArticles($article);
-
         $form = $this->createForm(CommentairesType::class, $commentaire);
         $form->handleRequest($request);
 
@@ -65,11 +63,13 @@ class AccountCommentairesController extends AbstractController
         $idUser = $user->getId();
         $commentaires = $commentairesRepository->findAll();
         $mesCommentaires = [];
+
         foreach ($commentaires as $commentaire) {
             if ($commentaire->getFKUser()->getId() === $idUser) {
                 $mesCommentaires[] = $commentaire;
             }
         }
+
         return $this->render('account/commentaires/show.html.twig', [
             'commentaires' => $mesCommentaires,
         ]);
