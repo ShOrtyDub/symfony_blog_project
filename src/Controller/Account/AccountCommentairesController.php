@@ -3,8 +3,10 @@
 namespace App\Controller\Account;
 
 use App\Entity\Commentaires;
+use App\Entity\User;
 use App\Form\CommentairesType;
 use App\Repository\CommentairesRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,12 +24,14 @@ class AccountCommentairesController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_account_commentaires_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{id}', name: 'app_account_commentaires_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository, $id): Response
     {
         $commentaire = new Commentaires();
+        $user = $userRepository->find($id);
         $form = $this->createForm(CommentairesType::class, $commentaire);
         $form->handleRequest($request);
+        $commentaire->setFKUser($user);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($commentaire);
