@@ -3,13 +3,8 @@
 namespace App\Controller\Public;
 
 use App\Entity\Articles;
-use App\Form\ArticlesType;
 use App\Repository\ArticlesRepository;
-use App\Service\FileUploaderService;
-use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 

@@ -3,11 +3,8 @@
 namespace App\Controller\Public;
 
 use App\Entity\Commentaires;
-use App\Form\CommentairesType;
 use App\Repository\CommentairesRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
