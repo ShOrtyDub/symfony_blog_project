@@ -61,7 +61,7 @@ class AccountController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_account_profil_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, EntityManagerInterface $entityManager, CommentairesRepository $commentairesRepository, $id): Response
+    public function deleteUser(Request $request, User $user, EntityManagerInterface $entityManager, CommentairesRepository $commentairesRepository, $id): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $commentairesRepository->setCommentsToNull($id);
