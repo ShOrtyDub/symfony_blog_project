@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Articles;
 use App\Form\ArticlesType;
 use App\Repository\ArticlesRepository;
+use App\Repository\TeamRepository;
 use App\Service\FileUploaderService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,10 +33,13 @@ class ArticlesController extends AbstractController
         }
     }
 
-    #[Route('/new', name: 'app_articles_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, FileUploaderService $fileUploaderService, $publicUploadDir): Response
+    #[Route('/new/{id}', name: 'app_articles_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploaderService $fileUploaderService, TeamRepository $teamRepository, $publicUploadDir, $id): Response
     {
+        //TODO remplir fk_team_id lors du new article
         $article = new Articles();
+        $team = $teamRepository->find($id);
+        $article->setFKTeam($team);
         $format = 'Y-m-d';
         $date = date('Y-m-d');
         $date = DateTime::createFromFormat($format, $date);

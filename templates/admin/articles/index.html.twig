@@ -43,5 +43,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_articles_new') }}">Create new</a>
+    <a href="{{ path('app_articles_new', {'id': app.user.id}) }}">Create new</a>
 {% endblock %}
