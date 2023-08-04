@@ -80,20 +80,21 @@ class ArticlesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             //TODO pour effacer le fichier dans le dossier /public/uploads
-            $file = $form['logo']->getData();
-
-            if ($file) {
-                $uow = $entityManager->getUnitOfWork();
-                $originalData = $uow->getOriginalEntityData($article);
-                $logo = explode('/', $originalData['logo']);
-                @unlink($publicDeleteFileDir . '/' . $logo[2]);
-                $file_name = $fileUploaderService->upload($file);
-                if (null !== $file_name) {
-                    $full_path = $publicUploadDir . '/' . $file_name;
-                }
-
-                $article->setLogo($full_path);
-            }
+            //Ça ne marche pas
+//            $file = $form['logo']->getData();
+//
+//            if ($file) {
+//                $uow = $entityManager->getUnitOfWork();
+//                $originalData = $uow->getOriginalEntityData($article);
+//                $logo = explode('/', $originalData['logo']);
+//                @unlink($publicDeleteFileDir . '/' . $logo[2]);
+//                $file_name = $fileUploaderService->upload($file);
+//                if (null !== $file_name) {
+//                    $full_path = $publicUploadDir . '/' . $file_name;
+//                }
+//
+//                $article->setLogo($full_path);
+//            }
 
             $this->fileUpload($article, $form, $fileUploaderService, $publicUploadDir);
             $entityManager->flush();
