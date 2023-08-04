@@ -79,7 +79,7 @@ class ArticlesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // pour effacer le fichier dans le dossier /public/uploads
+            //TODO pour effacer le fichier dans le dossier /public/uploads
             $file = $form['logo']->getData();
 
             if ($file) {
